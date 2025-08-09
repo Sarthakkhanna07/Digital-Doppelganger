@@ -36,39 +36,29 @@ TOKEN = os.environ.get("AUTH_TOKEN")
 MY_NUMBER = os.environ.get("MY_NUMBER")
 DATABASE_URL = os.environ.get("DATABASE_URL", "time_capsule.db")
 
+assert TOKEN is not None, "Please set AUTH_TOKEN in your .env file"
+assert MY_NUMBER is not None, "Please set MY_NUMBER in your .env file"
+
 # Public MCP Server Mode - Anyone can use this server
 PUBLIC_MODE = os.environ.get("PUBLIC_MODE", "true").lower() == "true"
 
 if PUBLIC_MODE:
     print("🌍 Running in PUBLIC MODE - Anyone can connect!")
-    # Use a default token for public access
-    TOKEN = TOKEN or "public_time_capsule_server"
-    MY_NUMBER = MY_NUMBER or "000000000000"  # Generic number for public mode
 else:
-    assert TOKEN is not None, "Please set AUTH_TOKEN in your .env file"
-    assert MY_NUMBER is not None, "Please set MY_NUMBER in your .env file"
+    print("🔒 Running in PRIVATE MODE - Personal use only")
 
-# Auth Provider
+# Auth Provider - Following Puch AI example pattern
 class TimeCapsuleAuthProvider(BearerAuthProvider):
     def __init__(self, token: str):
         k = RSAKeyPair.generate()
         super().__init__(public_key=k.public_key, jwks_uri=None, issuer=None, audience=None)
         self.token = token
-        self.public_mode = PUBLIC_MODE
 
     async def load_access_token(self, token: str) -> AccessToken | None:
-        if self.public_mode:
-            # In public mode, accept any token or no token
-            return AccessToken(
-                token=token or "public",
-                client_id="time-capsule-public",
-                scopes=["*"],
-                expires_at=None,
-            )
-        elif token == self.token:
+        if token == self.token:
             return AccessToken(
                 token=token,
-                client_id="time-capsule-client",
+                client_id="puch-client",
                 scopes=["*"],
                 expires_at=None,
             )
@@ -106,18 +96,17 @@ if PUCH_WEBHOOK_URL:
 else:
     print("💡 To enable automatic WhatsApp delivery, set PUCH_WEBHOOK_URL in your .env file")
 
-# MCP Server Setup
+# MCP Server Setup - Following Puch AI example pattern
 mcp = FastMCP(
     "Time Capsule AI - Emotional Memory Assistant",
     auth=TimeCapsuleAuthProvider(TOKEN),
 )
 
 # Required validation tool for Puch AI
+# Required validation tool for Puch AI
 @mcp.tool
 async def validate() -> str:
     """Validation tool required by Puch AI"""
-    if PUBLIC_MODE:
-        return "public_time_capsule_server"  # Public server identifier
     return MY_NUMBER
 
 # Manual trigger for testing automatic delivery

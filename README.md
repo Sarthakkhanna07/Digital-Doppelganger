@@ -10,7 +10,7 @@ This is a **public Time Capsule AI server** - anyone can connect and start using
 
 **🚀 Connect Now:**
 ```
-/mcp connect https://your-server-url.com/mcp public_time_capsule_server
+/mcp connect https://digital-doppelganger-production.up.railway.app/mcp public_time_capsule_server
 ```
 
 *Message [Puch AI](https://wa.me/919998881729) to get started!*
@@ -88,7 +88,7 @@ Open WhatsApp and message: **[+91 99988 81729](https://wa.me/919998881729)**
 ### **Step 2: Connect to Digital Doppelganger**
 Send this command:
 ```
-/mcp connect https://your-server-url.com/mcp public_time_capsule_server
+/mcp connect https://digital-doppelganger-production.up.railway.app/mcp public_time_capsule_server
 ```
 
 ### **Step 3: Start Creating Emotional Reminders!**
@@ -307,7 +307,7 @@ Digital Doppelganger isn't just another reminder system - it's your **emotional 
 
 ### 🔗 **Connect Now:**
 ```
-/mcp connect https://your-server-url.com/mcp public_time_capsule_server
+/mcp connect https://digital-doppelganger-production.up.railway.app/mcp public_time_capsule_server
 ```
 
 *Message [Puch AI](https://wa.me/919998881729) to begin!*
