@@ -55,7 +55,15 @@ class TimeCapsuleAuthProvider(BearerAuthProvider):
         self.token = token
 
     async def load_access_token(self, token: str) -> AccessToken | None:
-        if token == self.token:
+        # Accept the expected public token or fallback tokens
+        valid_tokens = [
+            self.token,
+            "public_time_capsule_server",
+            "public_time_capsule_ai",
+            "time_capsule_public"
+        ]
+        
+        if token in valid_tokens:
             return AccessToken(
                 token=token,
                 client_id="puch-client",
@@ -108,6 +116,8 @@ mcp = FastMCP(
 async def validate() -> str:
     """Validation tool required by Puch AI"""
     return MY_NUMBER
+
+
 
 # Manual trigger for testing automatic delivery
 @mcp.tool
