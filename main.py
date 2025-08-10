@@ -47,7 +47,7 @@ if PUBLIC_MODE:
 else:
     print("🔒 Running in PRIVATE MODE - Personal use only")
 
-# Auth Provider - Following Puch AI example pattern
+# Auth Provider - Exact pattern from working Puch AI examples
 class TimeCapsuleAuthProvider(BearerAuthProvider):
     def __init__(self, token: str):
         k = RSAKeyPair.generate()
@@ -55,15 +55,7 @@ class TimeCapsuleAuthProvider(BearerAuthProvider):
         self.token = token
 
     async def load_access_token(self, token: str) -> AccessToken | None:
-        # Accept the expected public token or fallback tokens
-        valid_tokens = [
-            self.token,
-            "public_time_capsule_server",
-            "public_time_capsule_ai",
-            "time_capsule_public"
-        ]
-        
-        if token in valid_tokens:
+        if token == self.token:
             return AccessToken(
                 token=token,
                 client_id="puch-client",
